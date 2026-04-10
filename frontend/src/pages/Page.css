@@ -1,0 +1,15 @@
+.page__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00ff88;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.page__desc {
+  margin: 0;
+  max-width: 42rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+}
