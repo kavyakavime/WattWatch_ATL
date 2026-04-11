@@ -1,0 +1,307 @@
+.scheduler-page {
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.scheduler-page__header {
+  margin-bottom: 1.75rem;
+  text-align: center;
+}
+
+.scheduler-page__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 800;
+  color: #00ff88;
+  letter-spacing: 0.02em;
+}
+
+.scheduler-page__sub {
+  margin: 0 auto;
+  max-width: 40rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.scheduler-page__banner {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.scheduler-page__banner--warn {
+  border: 1px solid rgba(255, 170, 0, 0.45);
+  background: rgba(255, 170, 0, 0.1);
+  color: rgba(255, 220, 160, 0.95);
+}
+
+.scheduler-page__banner--err {
+  border: 1px solid rgba(255, 68, 68, 0.45);
+  background: rgba(255, 68, 68, 0.08);
+  color: rgba(255, 200, 200, 0.95);
+}
+
+.scheduler-page__chart-wrap {
+  width: 100%;
+  background: #0a0f0a;
+  border: 1px solid rgba(0, 255, 136, 0.22);
+  border-radius: 14px;
+  padding: 0.5rem 0.25rem 0.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+.scheduler-tooltip {
+  background: #111;
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.scheduler-tooltip__hour {
+  color: #00ff88;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.scheduler-tooltip__src {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.35rem;
+}
+
+.scheduler-tooltip__val {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.scheduler-page__chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem 1.75rem;
+  padding: 0.35rem 0.75rem 0.65rem;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.scheduler-page__chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.scheduler-page__chart-legend-swatch {
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.scheduler-page__chart-legend-swatch--real {
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.35), #00ff88);
+  border: 1px solid rgba(0, 255, 136, 0.65);
+}
+
+.scheduler-page__chart-legend-swatch--forecast {
+  background: linear-gradient(90deg, rgba(109, 255, 196, 0.25), rgba(109, 255, 196, 0.45));
+  border: 1px dashed rgba(109, 255, 196, 0.55);
+  opacity: 0.85;
+}
+
+.scheduler-page__form {
+  padding: 1.5rem 1.25rem 1.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 255, 136, 0.18);
+  background: linear-gradient(
+    165deg,
+    rgba(0, 255, 136, 0.05) 0%,
+    #060806 50%,
+    #040504 100%
+  );
+  margin-bottom: 1.5rem;
+}
+
+.scheduler-page__form-title {
+  margin: 0 0 1.1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scheduler-page__form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.scheduler-page__field {
+  flex: 1 1 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.scheduler-page__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.scheduler-page__select {
+  min-height: 48px;
+  padding: 0 0.85rem;
+  font-size: 1rem;
+  color: #fff;
+  background: #060806;
+  border: 2px solid rgba(0, 255, 136, 0.35);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.scheduler-page__select:focus {
+  outline: none;
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+}
+
+.scheduler-page__submit {
+  width: 100%;
+  min-height: 48px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #0a0f0a;
+  background: linear-gradient(165deg, #00ff88 0%, #00cc6f 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.scheduler-page__submit:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.scheduler-page__submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.scheduler-page__ai-badge {
+  display: inline-block;
+  margin: 0 0 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0a0f0a;
+  background: linear-gradient(165deg, #6dffc4 0%, #00ff88 100%);
+  border: 1px solid rgba(0, 255, 136, 0.5);
+}
+
+.scheduler-page__best-window {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.scheduler-page__best-window-time {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: clamp(1.45rem, 4.5vw, 2rem);
+  font-weight: 800;
+  color: #00ff88;
+  text-shadow: 0 0 28px rgba(0, 255, 136, 0.22);
+}
+
+.scheduler-page__result-historical-note {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.scheduler-page__result {
+  margin-bottom: 2rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  background: radial-gradient(
+    ellipse 120% 80% at 50% 0%,
+    rgba(0, 255, 136, 0.12),
+    #050805 55%
+  );
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 20px 50px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.scheduler-page__result-main {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.scheduler-page__result-em {
+  display: inline-block;
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-weight: 800;
+  color: #00ff88;
+  text-shadow: 0 0 32px rgba(0, 255, 136, 0.25);
+}
+
+.scheduler-page__result-line {
+  margin: 0.65rem 0 0;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.45;
+}
+
+.scheduler-page__result-pct {
+  font-weight: 800;
+  color: #00ff88;
+  font-variant-numeric: tabular-nums;
+}
+
+.scheduler-page__result-cars {
+  font-weight: 800;
+  color: #00ff88;
+  font-variant-numeric: tabular-nums;
+}
+
+.scheduler-page__cox {
+  margin: 0;
+  padding: 1.15rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 170, 0, 0.45);
+  background: rgba(255, 170, 0, 0.06);
+  color: rgba(255, 235, 200, 0.9);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 520px) {
+  .scheduler-page__chart-wrap {
+    padding: 0.25rem 0;
+  }
+}

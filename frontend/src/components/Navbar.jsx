@@ -5,7 +5,6 @@ import './Navbar.css'
 
 const nav = [
   { to: '/map', label: 'Atlanta Energy Map' },
-  { to: '/impact', label: 'Community Impact' },
   { to: '/scheduler', label: 'Green Scheduler' },
   { to: '/leaderboard', label: 'Leaderboard' },
 ]
@@ -83,7 +82,7 @@ export default function Navbar() {
           </span>
         </div>
         <div className="navbar__counter" aria-live="polite">
-          <span className="navbar__counter-label">Community cost</span>
+          <span className="navbar__counter-label">COMMUNITY COST</span>
           <span className="navbar__counter-value">{formatCommunityCost(amountUsd)}</span>
         </div>
       </div>

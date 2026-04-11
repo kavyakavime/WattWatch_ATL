@@ -1,7 +1,7 @@
 .atlanta-map__shell {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 550px;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(0, 255, 136, 0.22);
@@ -19,27 +19,310 @@
   background: #0a0f0a;
 }
 
-.atlanta-map__leaflet .leaflet-popup-content-wrapper {
-  background: #121a12;
+/* Slightly higher-contrast dark tiles */
+.atlanta-map__leaflet .leaflet-tile-pane {
+  filter: brightness(0.9) contrast(1.1);
+}
+
+.atlanta-map__controls {
+  position: absolute;
+  z-index: 1001;
+  top: 72px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.atlanta-map__ctrl-btn {
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: rgba(255, 255, 255, 0.92);
-  border-radius: 8px;
-  border: 1px solid rgba(0, 255, 136, 0.25);
+  background: rgba(13, 21, 13, 0.94);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.atlanta-map__ctrl-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 136, 0.12);
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+.atlanta-map__ctrl-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* —— Data center markers —— */
+
+.atlanta-map__dc-leaflet-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.atlanta-map__dc-marker-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.atlanta-map__dc-ring-wrap {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.atlanta-map__dc-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transform-origin: center center;
+  animation: atlanta-map-halo-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes atlanta-map-halo-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.65;
+  }
+}
+
+.atlanta-map__dc-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.atlanta-map__dc-name-pill {
+  margin-top: 4px;
+  max-width: 148px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 2;
+}
+
+/* —— User location marker —— */
+
+.atlanta-map__user-leaflet-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.atlanta-map__user-marker-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.atlanta-map__user-ring-wrap {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.atlanta-map__user-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(33, 150, 243, 0.45);
+  animation: atlanta-map-user-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes atlanta-map-user-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.72;
+  }
+}
+
+.atlanta-map__user-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2196f3;
+  z-index: 1;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.95),
+    0 0 10px rgba(33, 150, 243, 0.95),
+    0 0 18px rgba(33, 150, 243, 0.45);
+  pointer-events: none;
+}
+
+.atlanta-map__user-label {
+  margin-top: 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #90caf9;
+  background: rgba(0, 24, 48, 0.88);
+  border: 1px solid rgba(33, 150, 243, 0.5);
+  white-space: nowrap;
+}
+
+/* —— Popups —— */
+
+.atlanta-map__leaflet .leaflet-popup-content-wrapper {
+  background: #0d150d;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  border: 1px solid #00ff88;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  padding: 0;
+  overflow: hidden;
+}
+
+.atlanta-map__leaflet .leaflet-popup-content {
+  margin: 12px 14px 14px;
+  min-width: 11.5rem;
 }
 
 .atlanta-map__leaflet .leaflet-popup-tip {
-  background: #121a12;
+  background: #0d150d;
+  border: 1px solid #00ff88;
+  box-shadow: none;
 }
 
-.atlanta-map__popup {
-  font-size: 0.85rem;
-  line-height: 1.45;
-  min-width: 10rem;
-}
-
-.atlanta-map__popup strong {
-  display: block;
-  margin-bottom: 0.35rem;
+.atlanta-map__popup-title {
+  font-size: 14px;
+  font-weight: 800;
   color: #00ff88;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.atlanta-map__popup-title--blue {
+  color: #6eb6ff;
+  margin-bottom: 0;
+}
+
+.atlanta-map__popup-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.atlanta-map__popup-grid dt {
+  margin: 0;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.atlanta-map__popup-grid dd {
+  margin: 0;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: right;
+}
+
+.atlanta-map__popup-distance {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(0, 255, 136, 0.85);
+}
+
+.atlanta-map__popup-score {
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  overflow: hidden;
+}
+
+.atlanta-map__popup-score-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #00aa55 0%, #00ff88 100%);
+  transition: width 0.25s ease;
+  min-width: 4px;
+}
+
+.atlanta-map__grid-info {
+  position: absolute;
+  z-index: 1000;
+  top: 12px;
+  right: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(8, 12, 8, 0.92);
+  border: 1px solid rgba(0, 255, 136, 0.28);
+  backdrop-filter: blur(8px);
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: #00ff88;
+  font-weight: 600;
+  pointer-events: none;
+  max-width: 11rem;
+  text-align: right;
+}
+
+.atlanta-map__grid-info-line {
+  color: #00ff88;
+}
+
+.atlanta-map__grid-info-meta {
+  margin-top: 2px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(0, 255, 136, 0.75);
 }
 
 .atlanta-map__legend {
