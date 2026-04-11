@@ -22,18 +22,23 @@ function humanEquivalents(mw) {
   }
 }
 
-function buildShareText({ neighborhoodLabel, mw, homes, increase }) {
-  return (
-    `Data centers near ${neighborhoodLabel} consume ${formatIntLocale(mw)} MW — enough for ${formatIntLocale(homes)} homes. ` +
-    `Atlanta residents pay $${formatIntLocale(increase)}/month more since 2022. ` +
-    '#AtlantaEnergy #WattWatchATL'
-  )
-}
-
 /** X/Twitter post length guard for web intent URLs */
 function truncateForTweet(text, max = 260) {
   if (text.length <= max) return text
   return `${text.slice(0, Math.max(0, max - 1))}…`
+}
+
+function PostDraftBody({ text }) {
+  const parts = text.split(/(#[A-Za-z0-9_]+)/g)
+  return parts.map((part, i) =>
+    part.startsWith('#') ? (
+      <span key={`h-${i}`} className="map-page__post-draft-hashtag">
+        {part}
+      </span>
+    ) : (
+      <span key={`t-${i}`}>{part}</span>
+    ),
+  )
 }
 
 function IconX() {
@@ -152,6 +157,9 @@ export default function MapImpactPanels() {
   const [submittedZip, setSubmittedZip] = useState(null)
   const [copyDone, setCopyDone] = useState(false)
   const [socialFeedback, setSocialFeedback] = useState(null)
+  const [aiPost, setAiPost] = useState(null)
+  const [aiPostLoading, setAiPostLoading] = useState(false)
+  const [aiPostError, setAiPostError] = useState(null)
   const [emailCopyDone, setEmailCopyDone] = useState(false)
   const [suggestOpen, setSuggestOpen] = useState(false)
   const [bannerCarbon, setBannerCarbon] = useState(null)
@@ -330,15 +338,55 @@ export default function MapImpactPanels() {
     : ''
   const equiv = impactResult ? humanEquivalents(impactResult.datacenter_mw) : null
 
-  const shareText = useMemo(() => {
-    if (!impactResult || !equiv) return ''
-    return buildShareText({
-      neighborhoodLabel,
-      mw: impactResult.datacenter_mw,
-      homes: equiv.homes,
-      increase: impactResult.increase,
-    })
-  }, [impactResult, equiv, neighborhoodLabel])
+  const fetchAiPost = useCallback(async () => {
+    if (!impactResult) return
+    setAiPostLoading(true)
+    setAiPostError(null)
+    try {
+      const homes = Math.round(humanEquivalents(impactResult.datacenter_mw).homes)
+      const r = await fetch(`${API_BASE}/api/generate-post`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          neighborhood: neighborhoodLabel,
+          bill_increase: impactResult.increase,
+          datacenter_name: impactResult.datacenter_name,
+          datacenter_mw: impactResult.datacenter_mw,
+          homes_powered: homes,
+        }),
+      })
+      const data = await r.json().catch(() => ({}))
+      if (!r.ok) {
+        let msg = 'Could not generate post. Try again.'
+        if (typeof data.detail === 'string') msg = data.detail
+        else if (Array.isArray(data.detail)) {
+          msg = data.detail
+            .map((d) => (typeof d === 'object' && d?.msg ? d.msg : String(d)))
+            .join(' ')
+        }
+        throw new Error(msg)
+      }
+      const post = typeof data.post === 'string' ? data.post.trim() : ''
+      if (!post) throw new Error('Empty post from server.')
+      setAiPost(post)
+    } catch (err) {
+      setAiPostError(err instanceof Error ? err.message : 'Could not generate post.')
+      setAiPost(null)
+    } finally {
+      setAiPostLoading(false)
+    }
+  }, [impactResult, neighborhoodLabel])
+
+  useEffect(() => {
+    if (!impactResult) {
+      setAiPost(null)
+      setAiPostError(null)
+      setAiPostLoading(false)
+      return
+    }
+    if (impactLoading) return
+    void fetchAiPost()
+  }, [impactResult, impactLoading, fetchAiPost])
 
   const pscDraft = useMemo(() => {
     if (!impactResult) return null
@@ -360,36 +408,36 @@ export default function MapImpactPanels() {
     return { hasValue, tone, phrase }
   }, [bannerCarbon, bannerLoading])
 
-  const copyShare = useCallback(async () => {
-    if (!shareText) return
+  const copyAiPostPlain = useCallback(async () => {
+    if (!aiPost) return
     try {
-      await navigator.clipboard.writeText(shareText)
+      await navigator.clipboard.writeText(aiPost)
       setCopyDone(true)
       window.setTimeout(() => setCopyDone(false), 2500)
     } catch {
       setImpactError('Could not copy to clipboard.')
     }
-  }, [shareText])
+  }, [aiPost])
 
   const openTwitterShare = useCallback(() => {
-    if (!shareText) return
-    const text = truncateForTweet(shareText)
+    if (!aiPost) return
+    const text = truncateForTweet(aiPost, 278)
     const href = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`
     window.open(href, '_blank', 'noopener,noreferrer')
-  }, [shareText])
+  }, [aiPost])
 
   const openLinkedInShare = useCallback(() => {
-    if (!shareText) return
+    if (!aiPost) return
     const pageUrl = window.location.href
     const title = 'WattWatch ATL — Atlanta data center neighborhood impact'
-    const href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(shareText)}&source=WattWatchATL`
+    const href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(aiPost)}&source=WattWatchATL`
     window.open(href, '_blank', 'noopener,noreferrer')
-  }, [shareText])
+  }, [aiPost])
 
   const openInstagramShare = useCallback(async () => {
-    if (!shareText) return
+    if (!aiPost) return
     try {
-      await navigator.clipboard.writeText(shareText)
+      await navigator.clipboard.writeText(aiPost)
       setSocialFeedback(
         'Caption copied. We opened Instagram — paste it into a new post (Instagram has no web draft link).',
       )
@@ -398,7 +446,7 @@ export default function MapImpactPanels() {
     } catch {
       setImpactError('Could not copy caption for Instagram.')
     }
-  }, [shareText])
+  }, [aiPost])
 
   const copyPscEmail = useCallback(async () => {
     if (!impactResult) return
@@ -722,54 +770,98 @@ export default function MapImpactPanels() {
             <div className="map-page__action-card">
               <h3 className="map-page__action-card-title">Share the Data</h3>
               <p className="map-page__action-card-desc">
-                Open a drafted post on X or LinkedIn, or copy your caption for
-                Instagram (run a zip check first).
+                After you check your zip, we generate an AI post you can share on
+                social or copy.
               </p>
-              <div className="map-page__share-social-row">
-                <button
-                  type="button"
-                  className="map-page__share-icon-btn"
-                  onClick={openTwitterShare}
-                  disabled={!shareText}
-                  aria-label="Post draft on X (Twitter)"
+              {!impactResult && (
+                <p className="map-page__action-placeholder-text map-page__share-placeholder">
+                  Run a zip check above to generate your post.
+                </p>
+              )}
+              {impactResult && aiPostLoading && (
+                <div
+                  className="map-page__post-generating"
+                  aria-live="polite"
                 >
-                  <IconX />
-                  <span>X</span>
-                </button>
-                <button
-                  type="button"
-                  className="map-page__share-icon-btn"
-                  onClick={openLinkedInShare}
-                  disabled={!shareText}
-                  aria-label="Share draft on LinkedIn"
-                >
-                  <IconLinkedIn />
-                  <span>LinkedIn</span>
-                </button>
-                <button
-                  type="button"
-                  className="map-page__share-icon-btn"
-                  onClick={() => void openInstagramShare()}
-                  disabled={!shareText}
-                  aria-label="Copy caption and open Instagram"
-                >
-                  <IconInstagram />
-                  <span>Instagram</span>
-                </button>
-              </div>
+                  <div className="map-page__spinner" aria-hidden="true" />
+                  <p className="map-page__post-generating-text">Generating post…</p>
+                </div>
+              )}
+              {impactResult && !aiPostLoading && aiPostError && !aiPost && (
+                <p className="map-page__post-draft-error" role="alert">
+                  {aiPostError}{' '}
+                  <button
+                    type="button"
+                    className="map-page__post-draft-retry"
+                    onClick={() => void fetchAiPost()}
+                  >
+                    Retry
+                  </button>
+                </p>
+              )}
+              {impactResult && aiPost && !aiPostLoading && (
+                <div className="map-page__post-draft-card">
+                  <div className="map-page__post-draft-head">
+                    <span className="map-page__post-draft-kicker">POST DRAFT</span>
+                    <button
+                      type="button"
+                      className="map-page__post-draft-regen"
+                      onClick={() => void fetchAiPost()}
+                      disabled={aiPostLoading}
+                    >
+                      ↻ Regenerate
+                    </button>
+                  </div>
+                  <div className="map-page__post-draft-body">
+                    <PostDraftBody text={aiPost} />
+                  </div>
+                  <div className="map-page__share-actions-grid">
+                    <button
+                      type="button"
+                      className="map-page__share-grid-btn map-page__share-grid-btn--primary"
+                      onClick={openTwitterShare}
+                      disabled={!aiPost}
+                      aria-label="Post on X"
+                    >
+                      <IconX />
+                      <span>Post on X</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="map-page__share-grid-btn map-page__share-grid-btn--primary"
+                      onClick={openLinkedInShare}
+                      disabled={!aiPost}
+                      aria-label="Post on LinkedIn"
+                    >
+                      <IconLinkedIn />
+                      <span>Post on LinkedIn</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="map-page__share-grid-btn map-page__share-grid-btn--primary"
+                      onClick={() => void openInstagramShare()}
+                      disabled={!aiPost}
+                      aria-label="Copy for Instagram"
+                    >
+                      <IconInstagram />
+                      <span>Copy for Instagram</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="map-page__share-grid-btn map-page__share-grid-btn--outline"
+                      onClick={copyAiPostPlain}
+                      disabled={!aiPost}
+                    >
+                      {copyDone ? 'Copied!' : 'Copy text only'}
+                    </button>
+                  </div>
+                </div>
+              )}
               {socialFeedback && (
                 <p className="map-page__share-feedback" role="status">
                   {socialFeedback}
                 </p>
               )}
-              <button
-                type="button"
-                className="map-page__action-btn map-page__action-btn--secondary"
-                onClick={copyShare}
-                disabled={!shareText}
-              >
-                {copyDone ? 'Copied!' : 'Copy text only'}
-              </button>
             </div>
       </div>
     </>

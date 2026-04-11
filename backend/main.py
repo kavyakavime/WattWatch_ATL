@@ -779,6 +779,80 @@ class ZipImpactAIRequest(BaseModel):
     zip: str = Field(..., min_length=1, max_length=12)
 
 
+class GeneratePostRequest(BaseModel):
+    neighborhood: str = Field(..., min_length=1, max_length=240)
+    bill_increase: int = Field(..., ge=0, le=50000)
+    datacenter_name: str = Field(..., min_length=1, max_length=240)
+    datacenter_mw: float = Field(..., ge=0, le=1_000_000)
+    homes_powered: int = Field(..., ge=0, le=500_000_000)
+
+
+def fallback_generate_social_post(
+    *,
+    neighborhood: str,
+    bill_increase: int,
+    datacenter_name: str,
+    datacenter_mw: float,
+    homes_powered: int,
+) -> str:
+    mw_s = f"{datacenter_mw:g}"
+    return (
+        f"{neighborhood}: Data center growth is hitting our bills—"
+        f"${bill_increase}/mo more since 2022. Nearest major site: {datacenter_name} "
+        f"({mw_s} MW, ~{homes_powered} homes equivalent). "
+        "Contact Georgia PSC and your state senator today. "
+        "#AtlantaEnergy #WattWatchATL #GeorgiaPower"
+    )
+
+
+def groq_generate_social_post(
+    *,
+    neighborhood: str,
+    bill_increase: int,
+    datacenter_name: str,
+    datacenter_mw: float,
+    homes_powered: int,
+) -> str:
+    api_key = os.getenv("GROQ_API_KEY", "").strip()
+    if not api_key or api_key == "PASTE_YOUR_GROQ_KEY_HERE":
+        raise ValueError(
+            "GROQ_API_KEY is not configured. Set it in backend/.env",
+        )
+
+    user = (
+        "Write a compelling 3-sentence social media post for an Atlanta resident "
+        "about data center energy impact in their neighborhood. Data: "
+        f"neighborhood={neighborhood}, bill increase=${bill_increase}/month since 2022, "
+        f"nearest data center={datacenter_name} consuming {datacenter_mw} MW powering "
+        f"{homes_powered} homes equivalent. "
+        "Make it urgent, community-focused, and end with a clear call to action urging "
+        "people to contact Georgia PSC or their state senator. Include "
+        "#AtlantaEnergy #WattWatchATL #GeorgiaPower hashtags. "
+        "Keep it under 280 characters total for X. Return only the post text, nothing else."
+    )
+
+    client = _groq_client(api_key)
+    for attempt in range(GROQ_CALL_RETRIES):
+        try:
+            completion = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": user}],
+                max_tokens=220,
+            )
+            choice = completion.choices[0] if completion.choices else None
+            raw = (choice.message.content if choice and choice.message else "") or ""
+            raw = raw.strip()
+            if not raw:
+                raise ValueError("Empty response from Groq")
+            return raw
+        except Exception as e:
+            if attempt < GROQ_CALL_RETRIES - 1 and _groq_error_is_retryable(e):
+                time.sleep(GROQ_RETRY_BASE_SLEEP_S * (attempt + 1))
+                continue
+            raise ValueError(f"Groq API error: {e}") from e
+    raise ValueError("Groq API error: exhausted retries")
+
+
 @app.get("/api/zip-impact/{zip}")
 async def zip_impact(zip: str):
     return resolve_zip_impact(zip)
@@ -830,3 +904,29 @@ async def zip_impact_ai(body: ZipImpactAIRequest):
         "ai_source": ai_source,
         "resolved_zip": resolved_zip,
     }
+
+
+@app.post("/api/generate-post")
+async def generate_post(body: GeneratePostRequest):
+    try:
+        post = await asyncio.to_thread(
+            groq_generate_social_post,
+            neighborhood=body.neighborhood.strip(),
+            bill_increase=body.bill_increase,
+            datacenter_name=body.datacenter_name.strip(),
+            datacenter_mw=body.datacenter_mw,
+            homes_powered=body.homes_powered,
+        )
+        return {"post": post, "source": "groq"}
+    except ValueError as e:
+        msg = str(e)
+        if "GROQ_API_KEY" in msg:
+            raise HTTPException(status_code=503, detail=msg) from e
+        post = fallback_generate_social_post(
+            neighborhood=body.neighborhood.strip(),
+            bill_increase=body.bill_increase,
+            datacenter_name=body.datacenter_name.strip(),
+            datacenter_mw=body.datacenter_mw,
+            homes_powered=body.homes_powered,
+        )
+        return {"post": post, "source": "fallback"}

@@ -129,7 +129,9 @@ export default function MapPage() {
             </p>
           )}
 
-          <p className="map-page__section-label">GRID HEALTH</p>
+          <p className="map-page__section-label map-page__section-label--grid-health">
+            GRID HEALTH
+          </p>
 
           <div className="map-page__score-card" aria-label="WattWatch grid health score">
             <p className="map-page__score-card-label">WATTWATCH SCORE</p>
