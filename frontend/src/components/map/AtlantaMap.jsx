@@ -16,11 +16,9 @@ const DEFAULT_ZOOM = 9
 const FIT_PADDING = 60
 
 const TILE_URL =
-  'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
+  'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 const TILE_ATTRIBUTION =
-  '&copy; <a href="https://stadiamaps.com/" target="_blank" rel="noreferrer">Stadia Maps</a> ' +
-  '&copy; <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">OpenMapTiles</a> ' +
-  '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>'
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 
 function escapeHtml(s) {
   return String(s)
@@ -311,6 +309,7 @@ export default function AtlantaMap({ datacenters }) {
         <TileLayer
           attribution={TILE_ATTRIBUTION}
           url={TILE_URL}
+          subdomains="abcd"
           maxZoom={16}
           r={retinaSuffix}
         />
