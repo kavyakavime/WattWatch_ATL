@@ -21,7 +21,7 @@ npm run dev
 ```
 ## Inspiration
 
-My dad showed me his Georgia Power bills last month. 2022 to 2025 — up $41 every single month. He thought it was inflation. It wasn't.
+My dad showed me his Georgia Power bills last month. 2022 to 2026, up $41 every single month. He thought it was inflation. It wasn't.
 
 On December 19th, 2025, Georgia regulators unanimously approved Georgia Power's request for nearly 10,000 megawatts of new energy capacity, 80% of it for data centers. The Southern Environmental Law Center called it *"putting the $60 billion risk on the backs of everyday Georgians."* The average Atlanta residential bill has already climbed more than $43 a month over the past two years.
 
@@ -76,7 +76,7 @@ Every major Atlanta data center ranked by our Green Score, a composite of PUE ef
 
 **Real data vs. mock data:** Our biggest early challenge was finding free, real APIs for Georgia grid data. WattTime's free tier only covers California. We found Electricity Maps, which covers Georgia Power's SOCO zone on their academic/free tier, and the data came back live immediately. 397 gCO2eq/kWh on the first call. That moment made the whole project feel real.
 
-**LLM forecasting:** We wanted a 24-hour carbon forecast but didn't have access to a paid forecast API. We fed the real 24-hour historical data into Groq and prompted it to forecast the next 24 hours based on Georgia's known grid patterns — solar peaks midday, evening demand spikes. The LLM actually captures these patterns well enough to be useful for scheduling recommendations.
+**LLM forecasting:** We wanted a 24-hour carbon forecast but didn't have access to a paid forecast API. We fed the real 24-hour historical data into Groq and prompted it to forecast the next 24 hours based on Georgia's known grid patterns, solar peaks midday, evening demand spikes. The LLM actually captures these patterns well enough to be useful for scheduling recommendations.
 
 **Layout complexity:** Building a three-panel mission control layout, left sidebar, full-screen Leaflet map, right sidebar, with all panels updating from the same live data context was technically the hardest UI challenge. Leaflet in particular requires `invalidateSize()` calls after any DOM resize, and getting the map to fill its container correctly took significant iteration.
 
@@ -87,19 +87,19 @@ Every major Atlanta data center ranked by our Green Score, a composite of PUE ef
 ## Accomplishments we're proud of
 
 - Every grid number on screen is **live**, not simulated. Georgia Power's actual balancing authority, right now.
-- The AI community impact bullets are genuinely empathetic and neighborhood-specific — Groq nailed the tone.
+- The AI community impact bullets are genuinely empathetic and neighborhood-specific, Groq nailed the tone.
 - The action engine: going from "here's your data" to "here's your pre-written PSC email" in one tap is the feature we're most proud of. It closes the loop between awareness and action.
-- The Green Scheduler's 48-hour chart — real data left, AI forecast right, divided by a NOW line — looks and functions like a real product.
+- The Green Scheduler's 48-hour chart, real data left, AI forecast right, divided by a NOW line, looks and functions like a real product.
 - We built this in one night. At Georgia Tech. For our city.
 
 ---
 
 ## What we learned
 
-- Free APIs with real data exist if you look hard enough — Electricity Maps gave us live Georgia grid data for free with an academic license.
+- Free APIs with real data exist if you look hard enough, Electricity Maps gave us live Georgia grid data for free with an academic license.
 - LLMs are genuinely useful for explaining complex infrastructure data to regular people. The gap between "403 gCO2eq/kWh" and "your electric bill went up $41/month because of this" is exactly where AI adds value.
 - Transparency tools only work if they drive action. A dashboard that shows you data but doesn't tell you what to do with it is just an interesting chart. The PSC email feature is what makes PoweredBy a civic tool rather than a visualization.
-- The story matters as much as the tech. My dad's bill is the reason this exists. That's not a pitch trick — it's the truth.
+- The story matters as much as the tech. My dad's bill is the reason this exists. That's not a pitch trick, it's the truth.
 
 ---
 
