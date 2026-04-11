@@ -137,32 +137,36 @@
   }
 }
 
-.navbar__counter {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.1rem;
-  min-width: 9rem;
+.navbar__cost-compact {
+  max-width: min(42vw, 22rem);
   text-align: right;
 }
 
-.navbar__counter-label {
-  font-size: 9px;
+.navbar__cost-compact-text {
+  font-size: 10px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.35;
+  white-space: nowrap;
 }
 
-.navbar__counter-value {
-  font-variant-numeric: tabular-nums;
+.navbar__cost-compact-amount {
+  font-size: 11px;
   font-weight: 600;
-  font-size: 15px;
+  font-variant-numeric: tabular-nums;
   color: #ffffff;
+  letter-spacing: 0.02em;
 }
 
 @media (max-width: 960px) {
-  .navbar__counter {
-    align-items: flex-start;
+  .navbar__cost-compact {
     text-align: left;
+    max-width: 100%;
+  }
+
+  .navbar__cost-compact-text {
+    white-space: normal;
   }
 }

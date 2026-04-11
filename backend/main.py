@@ -24,7 +24,7 @@ GROQ_RETRY_BASE_SLEEP_S = 1.25
 ELECTRICITY_MAPS_BASE = "https://api.electricitymaps.com/v3/carbon-intensity"
 ZONE = "US-SE-SOCO"
 
-app = FastAPI(title="WattWatch ATL API")
+app = FastAPI(title="poweredBy Atl API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -147,7 +147,7 @@ async def carbon_intensity():
 
 NOMINATIM_REVERSE = "https://nominatim.openstreetmap.org/reverse"
 NOMINATIM_UA = (
-    "WattWatch-ATL/1.0 (https://github.com; energy-map demo — reverse geocode)"
+    "poweredBy-Atl/1.0 (https://github.com; energy-map demo — reverse geocode)"
 )
 
 
@@ -801,7 +801,7 @@ def fallback_generate_social_post(
         f"${bill_increase}/mo more since 2022. Nearest major site: {datacenter_name} "
         f"({mw_s} MW, ~{homes_powered} homes equivalent). "
         "Contact Georgia PSC and your state senator today. "
-        "#AtlantaEnergy #WattWatchATL #GeorgiaPower"
+        "#AtlantaEnergy #PoweredByATL #GeorgiaPower"
     )
 
 
@@ -827,7 +827,7 @@ def groq_generate_social_post(
         f"{homes_powered} homes equivalent. "
         "Make it urgent, community-focused, and end with a clear call to action urging "
         "people to contact Georgia PSC or their state senator. Include "
-        "#AtlantaEnergy #WattWatchATL #GeorgiaPower hashtags. "
+        "#AtlantaEnergy #PoweredByATL #GeorgiaPower hashtags. "
         "Keep it under 280 characters total for X. Return only the post text, nothing else."
     )
 

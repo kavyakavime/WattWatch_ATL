@@ -133,8 +133,8 @@ export default function MapPage() {
             GRID HEALTH
           </p>
 
-          <div className="map-page__score-card" aria-label="WattWatch grid health score">
-            <p className="map-page__score-card-label">WATTWATCH SCORE</p>
+          <div className="map-page__score-card" aria-label="poweredBy Atl grid health score">
+            <p className="map-page__score-card-label">POWEREDBY ATL SCORE</p>
             {gridHealthScoreRounded != null ? (
               <p
                 className="map-page__score-card-num"

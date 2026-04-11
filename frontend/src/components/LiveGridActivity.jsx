@@ -88,7 +88,7 @@ function buildMessage(id, ctx) {
     () =>
       'Grid alert: demand forecast exceeds supply buffer for next 2 hours',
     () =>
-      'WattWatch tip: schedule batch AI jobs before 6am for lowest carbon',
+      'poweredBy Atl tip: schedule batch AI jobs before 6am for lowest carbon',
     () =>
       `Digital Realty ATL: estimated ${rndInt(200, 215)} MW active load`,
     () =>

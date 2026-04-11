@@ -429,8 +429,8 @@ export default function MapImpactPanels() {
   const openLinkedInShare = useCallback(() => {
     if (!aiPost) return
     const pageUrl = window.location.href
-    const title = 'WattWatch ATL — Atlanta data center neighborhood impact'
-    const href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(aiPost)}&source=WattWatchATL`
+    const title = 'poweredBy Atl — Atlanta data center neighborhood impact'
+    const href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(aiPost)}&source=PoweredByATL`
     window.open(href, '_blank', 'noopener,noreferrer')
   }, [aiPost])
 

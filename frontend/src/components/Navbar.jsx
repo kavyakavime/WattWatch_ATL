@@ -47,7 +47,7 @@ export default function Navbar() {
           alt=""
           decoding="async"
         />
-        <span className="navbar__title">WattWatch ATL</span>
+        <span className="navbar__title">poweredBy Atl</span>
       </div>
 
       <nav className="navbar__links" aria-label="Main">
@@ -74,9 +74,13 @@ export default function Navbar() {
             {intensityBadgeText(ciLoading, current, unit)}
           </span>
         </div>
-        <div className="navbar__counter" aria-live="polite">
-          <span className="navbar__counter-label">COMMUNITY COST</span>
-          <span className="navbar__counter-value">{formatCommunityCost(amountUsd)}</span>
+        <div className="navbar__cost-compact" aria-live="polite">
+          <span className="navbar__cost-compact-text">
+            COMMUNITY COST{' '}
+            <span className="navbar__cost-compact-amount">
+              {formatCommunityCost(amountUsd)}
+            </span>
+          </span>
         </div>
       </div>
     </header>

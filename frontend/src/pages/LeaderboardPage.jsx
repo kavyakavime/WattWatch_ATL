@@ -44,7 +44,7 @@ function formatMw(n) {
 
 function buildReportText(facilityRows, statsCards, generatedAt) {
   const lines = [
-    'WattWatch ATL — Atlanta Data Center Transparency Leaderboard',
+    'poweredBy Atl — Atlanta Data Center Transparency Leaderboard',
     `Generated: ${generatedAt}`,
     '',
     'Summary (dashboard figures)',
@@ -68,7 +68,7 @@ function buildReportText(facilityRows, statsCards, generatedAt) {
   }
   lines.push('')
   lines.push('Green Score = PUE band points (max 40) + renewable% × 0.6 (max 60).')
-  lines.push('Source: WattWatch ATL model — not an official government filing.')
+  lines.push('Source: poweredBy Atl model — not an official government filing.')
   return lines.join('\n')
 }
 

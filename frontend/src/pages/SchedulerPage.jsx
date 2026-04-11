@@ -236,7 +236,7 @@ export default function SchedulerPage() {
         <h1 className="scheduler-page__title">Green Workload Scheduler</h1>
         <p className="scheduler-page__sub">
           Cox Automotive pioneered EV smart charging — shifting when cars charge
-          based on grid cleanliness. WattWatch ATL applies that same logic to AI
+          based on grid cleanliness. poweredBy Atl applies that same logic to AI
           compute workloads, with an AI forecast for the next 24 hours.
         </p>
       </header>
