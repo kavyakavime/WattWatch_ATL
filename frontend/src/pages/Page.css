@@ -1,15 +1,16 @@
 .page__title {
-  font-size: 1.75rem;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 0.75rem;
-  letter-spacing: 0.02em;
+  text-align: center;
 }
 
 .page__desc {
-  margin: 0;
-  max-width: 42rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
+  margin: 0 auto;
+  max-width: 40rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  text-align: center;
 }

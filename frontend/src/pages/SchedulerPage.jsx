@@ -361,7 +361,7 @@ export default function SchedulerPage() {
               fill="url(#schedulerForecastGrad)"
               fillOpacity={0.5}
               dot={false}
-              activeDot={{ r: 4, fill: '#6dffc4', stroke: '#0f1117' }}
+              activeDot={{ r: 4, fill: '#6dffc4', stroke: '#080c10' }}
               connectNulls={false}
             />
             <Area
@@ -372,7 +372,7 @@ export default function SchedulerPage() {
               fill="url(#schedulerCarbonGrad)"
               fillOpacity={1}
               dot={false}
-              activeDot={{ r: 5, fill: '#00ff88', stroke: '#0f1117' }}
+              activeDot={{ r: 5, fill: '#00ff88', stroke: '#080c10' }}
               connectNulls={false}
             />
           </AreaChart>

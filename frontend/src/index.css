@@ -15,28 +15,47 @@ body {
   font-family:
     system-ui,
     -apple-system,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
     sans-serif;
-  background-color: #0f1117;
-  background-image:
-    radial-gradient(
-      ellipse 80% 60% at 20% 50%,
-      rgba(0, 255, 136, 0.03) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 70% 50% at 80% 20%,
-      rgba(0, 150, 255, 0.03) 0%,
-      transparent 60%
-    );
-  background-attachment: fixed;
+  background-color: #080c10;
   color: #ffffff;
   -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: inherit;
+}
+
+/* Design system: inputs */
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea {
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #ffffff;
+  padding: 12px 16px;
+}
+
+input:not([type='checkbox']):not([type='radio']):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }

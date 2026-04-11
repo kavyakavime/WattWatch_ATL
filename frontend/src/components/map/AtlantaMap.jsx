@@ -106,10 +106,10 @@ const userLocationIcon = buildUserLocationIcon()
 function MapInvalidateSize() {
   const map = useMap()
   useEffect(() => {
-    const id = window.setTimeout(() => {
+    const t = window.setTimeout(() => {
       map.invalidateSize()
     }, 300)
-    return () => window.clearTimeout(id)
+    return () => window.clearTimeout(t)
   }, [map])
   return null
 }

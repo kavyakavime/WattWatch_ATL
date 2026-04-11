@@ -72,7 +72,10 @@ function buildReportText(facilityRows, statsCards, generatedAt) {
   return lines.join('\n')
 }
 
-export function LeaderboardPanel({ embedded = false }) {
+export function LeaderboardPanel({
+  embedded = false,
+  dashboardEmbed = false,
+}) {
   const [centers, setCenters] = useState([])
   const [loadError, setLoadError] = useState(null)
 
@@ -163,19 +166,36 @@ export function LeaderboardPanel({ embedded = false }) {
     URL.revokeObjectURL(url)
   }, [ranked, summaryStats])
 
-  const rootClass = embedded ? 'lb-page lb-page--embedded' : 'lb-page'
+  const rootClass = [
+    'lb-page',
+    dashboardEmbed && 'lb-page--dashboard',
+    embedded && !dashboardEmbed && 'lb-page--embedded',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <article className={rootClass}>
       <header className="lb-page__header">
         <h1 className="lb-page__title">
-          Atlanta Data Center Transparency Leaderboard
+          {dashboardEmbed
+            ? 'Atlanta Data Center Transparency'
+            : 'Atlanta Data Center Transparency Leaderboard'}
         </h1>
         <p className="lb-page__sub">
-          Atlanta is one of the fastest-growing data center markets in the US.
-          These facilities collectively consume enough power for{' '}
-          {metroHomesMillions} million Georgia homes. Transparency is the first
-          step to accountability.
+          {dashboardEmbed ? (
+            <>
+              Metro facilities ranked by green score — enough power for{' '}
+              {metroHomesMillions}M homes equivalent.
+            </>
+          ) : (
+            <>
+              Atlanta is one of the fastest-growing data center markets in the US.
+              These facilities collectively consume enough power for{' '}
+              {metroHomesMillions} million Georgia homes. Transparency is the first
+              step to accountability.
+            </>
+          )}
         </p>
       </header>
 
@@ -331,40 +351,42 @@ export function LeaderboardPanel({ embedded = false }) {
         </table>
       </div>
 
-      <section className="lb-action" aria-labelledby="lb-action-heading">
-        <h2 id="lb-action-heading" className="lb-action__title">
-          Hold Data Centers Accountable
-        </h2>
-        <div className="lb-action__grid">
-          <div className="lb-action__card">
-            <h3 className="lb-action__card-title">For Residents</h3>
-            <p className="lb-action__card-text">
-              Ask your city council representative to require annual energy
-              transparency reports from data centers in your district.
-            </p>
+      {!dashboardEmbed && (
+        <section className="lb-action" aria-labelledby="lb-action-heading">
+          <h2 id="lb-action-heading" className="lb-action__title">
+            Hold Data Centers Accountable
+          </h2>
+          <div className="lb-action__grid">
+            <div className="lb-action__card">
+              <h3 className="lb-action__card-title">For Residents</h3>
+              <p className="lb-action__card-text">
+                Ask your city council representative to require annual energy
+                transparency reports from data centers in your district.
+              </p>
+            </div>
+            <div className="lb-action__card">
+              <h3 className="lb-action__card-title">For Journalists</h3>
+              <p className="lb-action__card-text">
+                Use this data to investigate the gap between corporate sustainability
+                claims and actual renewable energy usage.
+              </p>
+            </div>
+            <div className="lb-action__card">
+              <h3 className="lb-action__card-title">For Regulators</h3>
+              <p className="lb-action__card-text">
+                Georgia PSC has approved $16B in grid expansion — 80% for data
+                centers. Demand emissions disclosure as a condition of grid access.
+              </p>
+            </div>
           </div>
-          <div className="lb-action__card">
-            <h3 className="lb-action__card-title">For Journalists</h3>
-            <p className="lb-action__card-text">
-              Use this data to investigate the gap between corporate sustainability
-              claims and actual renewable energy usage.
-            </p>
-          </div>
-          <div className="lb-action__card">
-            <h3 className="lb-action__card-title">For Regulators</h3>
-            <p className="lb-action__card-text">
-              Georgia PSC has approved $16B in grid expansion — 80% for data
-              centers. Demand emissions disclosure as a condition of grid access.
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </article>
   )
 }
 
 export default function LeaderboardPage() {
-  return <LeaderboardPanel embedded={false} />
+  return <LeaderboardPanel embedded={false} dashboardEmbed={false} />
 }
 
 function ScoreBar({ score }) {

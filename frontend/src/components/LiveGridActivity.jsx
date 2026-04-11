@@ -4,6 +4,12 @@ const FEED_VISIBLE = 8
 const POOL_SIZE = 20
 const REFRESH_MS = 8000
 
+/** @param {number | undefined} maxVisible */
+function visibleCountForBatch(maxVisible) {
+  if (maxVisible == null || Number.isNaN(maxVisible)) return FEED_VISIBLE
+  return Math.max(1, Math.min(POOL_SIZE, Math.floor(maxVisible)))
+}
+
 function rndInt(lo, hi) {
   return lo + Math.floor(Math.random() * (hi - lo + 1))
 }
@@ -105,23 +111,32 @@ function buildMessage(id, ctx) {
   return typeof fn === 'function' ? fn() : ''
 }
 
-export default function LiveGridActivity({ intensity, history }) {
+/**
+ * @param {{ intensity: number | null, history?: number[], compact?: boolean, maxVisible?: number }} props
+ */
+export default function LiveGridActivity({
+  intensity,
+  history,
+  compact = false,
+  maxVisible,
+}) {
   const [tick, setTick] = useState(0)
   const [rows, setRows] = useState(() => [])
 
   const avg24 = useMemo(() => avgHistory(history), [history])
+  const batchSize = useMemo(() => visibleCountForBatch(maxVisible), [maxVisible])
 
   const makeBatch = useCallback(() => {
     const ctx = { intensity, avg24 }
     const order = shuffleIndices(POOL_SIZE)
-    const picked = order.slice(0, FEED_VISIBLE)
+    const picked = order.slice(0, batchSize)
     return picked.map((templateId) => ({
       id: `${Date.now()}-${templateId}-${Math.random().toString(36).slice(2, 8)}`,
       time: timeLabelMinutesAgo(),
       dot: randomDot(),
       text: buildMessage(templateId, ctx),
     }))
-  }, [intensity, avg24])
+  }, [intensity, avg24, batchSize])
 
   useEffect(() => {
     setRows(makeBatch())
@@ -136,23 +151,37 @@ export default function LiveGridActivity({ intensity, history }) {
 
   return (
     <section
-      className="map-page__feed"
+      className={`map-page__feed${compact ? ' map-page__feed--compact' : ''}`}
       aria-label="Live grid activity"
     >
-      <h3 className="map-page__feed-title">Live Grid Activity</h3>
+      {!compact && (
+        <div className="map-page__feed-head">
+          <span className="map-page__feed-live-dot" aria-hidden="true" />
+          <h3 className="map-page__feed-title">Live Grid Activity</h3>
+        </div>
+      )}
       <ul className="map-page__feed-list" key={tick}>
         {rows.map((row, i) => (
           <li
             key={row.id}
-            className="map-page__feed-row"
+            className={`map-page__feed-row${compact ? ' map-page__feed-row--compact' : ''}`}
             style={{ animationDelay: `${i * 45}ms` }}
           >
             <span
               className={`map-page__feed-dot map-page__feed-dot--${row.dot}`}
               aria-hidden="true"
             />
-            <span className="map-page__feed-time">{row.time}</span>
-            <span className="map-page__feed-msg">{row.text}</span>
+            {compact ? (
+              <>
+                <span className="map-page__feed-msg">{row.text}</span>
+                <span className="map-page__feed-time">{row.time}</span>
+              </>
+            ) : (
+              <>
+                <span className="map-page__feed-time">{row.time}</span>
+                <span className="map-page__feed-msg">{row.text}</span>
+              </>
+            )}
           </li>
         ))}
       </ul>

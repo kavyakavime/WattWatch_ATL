@@ -5,6 +5,74 @@
   padding-bottom: 2rem;
 }
 
+.lb-page--dashboard {
+  max-width: none;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.lb-page--dashboard .lb-page__header {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.lb-page--dashboard .lb-page__title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.lb-page--dashboard .lb-page__sub {
+  margin: 0;
+  max-width: none;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.lb-page--dashboard .lb-page__stat {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lb-page--dashboard .lb-page__stat-value {
+  font-size: 1.1rem;
+}
+
+.lb-page--dashboard .lb-page__table-wrap {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.lb-page--dashboard .lb-page__stats {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.lb-page--dashboard .lb-page__toolbar {
+  margin-bottom: 8px;
+}
+
+.lb-page--dashboard .lb-table th {
+  padding: 0 10px;
+  height: 36px;
+  vertical-align: middle;
+}
+
+.lb-page--dashboard .lb-page__download {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #080c10;
+  background: #00ff88;
+  border: none;
+  border-radius: 8px;
+}
+
 .lb-page--embedded {
   max-width: none;
   margin: 0;
@@ -102,10 +170,8 @@
 .lb-page__stat {
   padding: 1.1rem 1rem;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   text-align: center;
 }
 
@@ -135,32 +201,27 @@
 .lb-page__download {
   padding: 0.55rem 1.15rem;
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #0f1117;
+  color: #080c10;
   background: #00ff88;
-  border: 1px solid #00ff88;
-  border-radius: 8px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  transition:
-    filter 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 
 .lb-page__download:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.25);
+  opacity: 0.85;
 }
 
 .lb-page__table-wrap {
   overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  border: none;
   margin-bottom: 2.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: transparent;
   box-shadow: none;
 }
 
@@ -192,16 +253,17 @@
 }
 
 .lb-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .lb-table tbody tr.lb-table__row--benchmark {
-  background: rgba(0, 150, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(0, 150, 255, 0.35);
+  background: rgba(56, 138, 221, 0.08);
+  border-left: 3px solid #378add;
+  box-shadow: none;
 }
 
 .lb-table tbody tr.lb-table__row--benchmark:hover {
-  background: rgba(0, 150, 255, 0.1);
+  background: rgba(56, 138, 221, 0.11);
 }
 
 .lb-table tbody tr.lb-table__row--benchmark .lb-table__cell {
@@ -210,11 +272,19 @@
 
 .lb-table tbody tr.lb-table__row--georgia {
   background: rgba(255, 170, 0, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(255, 170, 0, 0.28);
+  border-left: 3px solid #ffaa00;
+  box-shadow: none;
 }
 
 .lb-table tbody tr.lb-table__row--georgia:hover {
-  background: rgba(255, 170, 0, 0.11);
+  background: rgba(255, 170, 0, 0.1);
+}
+
+.lb-page--dashboard .lb-table__cell {
+  padding: 0 10px;
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 12px;
 }
 
 .lb-table__cell {
@@ -375,11 +445,9 @@
 .lb-action__card {
   padding: 1.15rem 1.1rem 1.25rem;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 3px solid #00ff88;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.04);
   box-shadow: none;
 }
 
