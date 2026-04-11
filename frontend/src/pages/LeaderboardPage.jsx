@@ -72,7 +72,7 @@ function buildReportText(facilityRows, statsCards, generatedAt) {
   return lines.join('\n')
 }
 
-export default function LeaderboardPage() {
+export function LeaderboardPanel({ embedded = false }) {
   const [centers, setCenters] = useState([])
   const [loadError, setLoadError] = useState(null)
 
@@ -163,8 +163,10 @@ export default function LeaderboardPage() {
     URL.revokeObjectURL(url)
   }, [ranked, summaryStats])
 
+  const rootClass = embedded ? 'lb-page lb-page--embedded' : 'lb-page'
+
   return (
-    <article className="lb-page">
+    <article className={rootClass}>
       <header className="lb-page__header">
         <h1 className="lb-page__title">
           Atlanta Data Center Transparency Leaderboard
@@ -359,6 +361,10 @@ export default function LeaderboardPage() {
       </section>
     </article>
   )
+}
+
+export default function LeaderboardPage() {
+  return <LeaderboardPanel embedded={false} />
 }
 
 function ScoreBar({ score }) {

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
-import LeaderboardPage from './pages/LeaderboardPage'
+import CommunityImpactPage from './pages/CommunityImpactPage'
 import MapPage from './pages/MapPage'
 import SchedulerPage from './pages/SchedulerPage'
 
@@ -10,9 +10,9 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/map" replace />} />
         <Route path="map" element={<MapPage />} />
-        <Route path="impact" element={<Navigate to="/map" replace />} />
+        <Route path="impact" element={<CommunityImpactPage />} />
         <Route path="scheduler" element={<SchedulerPage />} />
-        <Route path="leaderboard" element={<LeaderboardPage />} />
+        <Route path="leaderboard" element={<Navigate to="/map" replace />} />
       </Route>
     </Routes>
   )

@@ -20,8 +20,20 @@ body {
     'Helvetica Neue',
     Arial,
     sans-serif;
-  background: #0a0f0a;
-  color: rgba(255, 255, 255, 0.9);
+  background-color: #0f1117;
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 20% 50%,
+      rgba(0, 255, 136, 0.03) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 80% 20%,
+      rgba(0, 150, 255, 0.03) 0%,
+      transparent 60%
+    );
+  background-attachment: fixed;
+  color: #ffffff;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -13,7 +13,7 @@
   margin: 0 0 0.75rem;
   font-size: clamp(1.5rem, 4vw, 2.1rem);
   font-weight: 800;
-  color: #00ff88;
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
@@ -22,7 +22,7 @@
   max-width: 40rem;
   font-size: 1.02rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .scheduler-page__banner {
@@ -47,18 +47,32 @@
 
 .scheduler-page__chart-wrap {
   width: 100%;
-  background: #0a0f0a;
-  border: 1px solid rgba(0, 255, 136, 0.22);
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
   padding: 0.5rem 0.25rem 0.25rem;
   margin-bottom: 2rem;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
+}
+
+.scheduler-page__chart-wrap .recharts-wrapper,
+.scheduler-page__chart-wrap .recharts-surface {
+  background: transparent !important;
+}
+
+.scheduler-page__chart-wrap .recharts-cartesian-grid-horizontal line,
+.scheduler-page__chart-wrap .recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.06) !important;
 }
 
 .scheduler-tooltip {
-  background: #111;
-  border: 1px solid rgba(0, 255, 136, 0.35);
-  border-radius: 8px;
+  background: rgba(15, 17, 23, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
 }
@@ -88,7 +102,7 @@
   gap: 1.25rem 1.75rem;
   padding: 0.35rem 0.75rem 0.65rem;
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .scheduler-page__chart-legend-item {
@@ -117,14 +131,11 @@
 
 .scheduler-page__form {
   padding: 1.5rem 1.25rem 1.75rem;
-  border-radius: 14px;
-  border: 1px solid rgba(0, 255, 136, 0.18);
-  background: linear-gradient(
-    165deg,
-    rgba(0, 255, 136, 0.05) 0%,
-    #060806 50%,
-    #040504 100%
-  );
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   margin-bottom: 1.5rem;
 }
 
@@ -156,7 +167,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .scheduler-page__select {
@@ -164,16 +175,16 @@
   padding: 0 0.85rem;
   font-size: 1rem;
   color: #fff;
-  background: #060806;
-  border: 2px solid rgba(0, 255, 136, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 10px;
   cursor: pointer;
 }
 
 .scheduler-page__select:focus {
   outline: none;
-  border-color: #00ff88;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
 }
 
 .scheduler-page__submit {
@@ -183,7 +194,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #0a0f0a;
+  color: #0f1117;
   background: linear-gradient(165deg, #00ff88 0%, #00cc6f 100%);
   border: none;
   border-radius: 10px;
@@ -210,7 +221,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0a0f0a;
+  color: #0f1117;
   background: linear-gradient(165deg, #6dffc4 0%, #00ff88 100%);
   border: 1px solid rgba(0, 255, 136, 0.5);
 }
@@ -228,8 +239,7 @@
   margin-top: 0.35rem;
   font-size: clamp(1.45rem, 4.5vw, 2rem);
   font-weight: 800;
-  color: #00ff88;
-  text-shadow: 0 0 28px rgba(0, 255, 136, 0.22);
+  color: #ffffff;
 }
 
 .scheduler-page__result-historical-note {
@@ -243,15 +253,12 @@
   margin-bottom: 2rem;
   padding: 1.75rem 1.5rem;
   border-radius: 16px;
-  border: 1px solid rgba(0, 255, 136, 0.35);
-  background: radial-gradient(
-    ellipse 120% 80% at 50% 0%,
-    rgba(0, 255, 136, 0.12),
-    #050805 55%
-  );
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.35),
-    0 20px 50px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #00ff88;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
   text-align: center;
 }
 

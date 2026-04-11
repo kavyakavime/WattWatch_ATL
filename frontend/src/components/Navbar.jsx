@@ -5,8 +5,8 @@ import './Navbar.css'
 
 const nav = [
   { to: '/map', label: 'Atlanta Energy Map' },
+  { to: '/impact', label: 'Community Impact' },
   { to: '/scheduler', label: 'Green Scheduler' },
-  { to: '/leaderboard', label: 'Leaderboard' },
 ]
 
 function formatCommunityCost(usd) {
