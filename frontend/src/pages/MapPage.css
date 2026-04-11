@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 56px);
-  background: #060a10;
+  background: transparent;
   box-sizing: border-box;
 }
 
@@ -228,7 +228,7 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  background: #060a10;
+  background: transparent;
 }
 
 .map-page__map-stage {
@@ -711,7 +711,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 20px 24px 32px;
-  background: #060a10;
+  background: transparent;
 }
 
 .map-page__leaderboard-below-card.ds-card {
