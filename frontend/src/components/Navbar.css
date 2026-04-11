@@ -17,11 +17,18 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  overflow: visible;
 }
 
 .navbar__logo {
-  color: #00ff88;
   flex-shrink: 0;
+  width: auto;
+  max-width: none;
+  height: 48px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  overflow: visible;
 }
 
 .navbar__title {

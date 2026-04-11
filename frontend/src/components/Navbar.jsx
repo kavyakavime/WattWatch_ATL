@@ -42,18 +42,12 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar__brand">
-        <svg
+        <img
           className="navbar__logo"
-          viewBox="0 0 24 32"
-          width="28"
-          height="36"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            d="M13 0L4 18h6l-3 14 13-20h-7l4-12H13z"
-          />
-        </svg>
+          src="/wattwatch_logo.png"
+          alt=""
+          decoding="async"
+        />
         <span className="navbar__title">WattWatch ATL</span>
       </div>
 
